@@ -1,0 +1,62 @@
+﻿@page "/dogs/details"
+@using Microsoft.EntityFrameworkCore
+@using _213_Final1.Models
+@inject IDbContextFactory<_213_Final1.Data._213_Final1Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Dog</h2>
+    <hr />
+    @if (dog is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@dog.Name</dd>
+            <dt class="col-sm-2">Breed</dt>
+            <dd class="col-sm-10">@dog.Breed</dd>
+            <dt class="col-sm-2">Size</dt>
+            <dd class="col-sm-10">@dog.Size</dd>
+            <dt class="col-sm-2">Age</dt>
+            <dd class="col-sm-10">@dog.Age</dd>
+            <dt class="col-sm-2">Description</dt>
+            <dd class="col-sm-10">@dog.Description</dd>
+            <dt class="col-sm-2">Other</dt>
+            <dd class="col-sm-10">@dog.Other</dd>
+            <dt class="col-sm-2">ImageUrl</dt>
+            <dd class="col-sm-10">@dog.ImageUrl</dd>
+            <dt class="col-sm-2">Gender</dt>
+            <dd class="col-sm-10">@dog.Gender</dd>
+            <dt class="col-sm-2">Temperament</dt>
+            <dd class="col-sm-10">@dog.Temperament</dd>
+        </dl>
+        <div>
+            <a href="@($"/dogs/edit?id={dog.Id}")">Edit</a> |
+            <a href="@($"/dogs")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Dog? dog;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        dog = await context.Dog.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (dog is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

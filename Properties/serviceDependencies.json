@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:_213_Final1Context"
+    },
+    "secrets1": {
+      "type": "secrets"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DBContextDog",
+      "dynamicId": null
+    }
+  }
+}
